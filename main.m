@@ -21,16 +21,24 @@ o1=I1.*(CL1);
 b1=double(I1)-double(o1);
 o2=I2.*(CL1); 
 b2=double(I2)-double(o2);
-
+[A1]=fpdepyou(b1,n);
+[A2]=fpdepyou(b2,n);
+D1=double(I1)-double(A1);
+D2=double(I2)-double(A2);
+ A(:,:,1)=A1;
+ A(:,:,2)=A2;
+ D(:,:,1)=D1;
+ D(:,:,2)=D2;
    figure,imshow(o1, [],'border','tight');
      figure,imshow(b1, [],'border','tight');
         figure,imshow(o2, [],'border','tight');
      figure,imshow(b2, [],'border','tight');
- % Target Region Fusion 
+ % Target Fusion 
 imf1= selc_myem1(o1,o2)
-
-  % Background Region Fusion 
-
+  % Background Basic Layer Fusion 
+        imf2=(0.5*A1+0.5*A2);
+  figure,imshow(imf2,[],'border','tight');
+    % Background Detail Layer Fusion 
   C1 = cov([b1(:) b2(:)]);
   [V11, D11] = eig(C1);
         if D11(1,1) >= D11(2,2)
